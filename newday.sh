@@ -16,7 +16,7 @@ fi
 
 [[ $DAY -ge 1 && $DAY -le 25 ]] || { echo "Invalid day"; exit 1; }
 
-DIR=$(printf "Day_%02d" "$DAY)
+DIR=$(printf "Day_%02d" "$DAY")
 
 [[ ! -e "$DIR" ]] || { echo "$DIR already exists!"; exit 1; }
 
@@ -26,8 +26,8 @@ mkdir "$DIR"
 cd "$DIR"
 
 # Empty input files
-> input.txt
-> test_input.txt
+touch input.txt
+touch test_input.txt
 
 # Four completely blank solution files (you pick the extension later)
 touch solution1
@@ -36,7 +36,7 @@ touch solution3
 touch solution4
 
 # The most generic Makefile ever written
-cat > Makefile <<'EOF'
+cat > Makefile << 'EOF'
 # Advent of Code – Day XX
 # Edit the commands below to match your language
 
@@ -69,8 +69,3 @@ test:
 clean:
     rm -rf __pycache__ *.o *.out *.exe a.out solution1 solution2
 EOF
-
-echo "$DIR ready!"
-echo "   cd $DIR"
-echo "   # write your code in solution1 / solution2 / ..."
-echo "   # then edit Makefile and run: make part1"
