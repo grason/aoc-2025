@@ -1,13 +1,13 @@
 .PHONY: all run-part1 run-part2 test
 
-all: run-part1 run-part2 run-go
+all: test run-part1 run-part2 run-go
 run-part1:
 	python solution.py input.txt
 
 run-part2:
 	python solution2.py input.txt
 
-test: test-part1 test-part2
+test: test-part1 test-part2 test-go
 
 test-part1: test_input.txt
 	@if [ "$$(python solution.py test_input.txt)" = "3" ]; then \
@@ -22,5 +22,9 @@ test-part2: test_input.txt
 	else \
 		echo "Part 2 test failed!"; \
 	fi
+
+test-go:
+	go run solution.go test
+
 run-go:
 	go run solution.go input.txt
