@@ -1,54 +1,18 @@
-package main
+// solution.go
+package day01
 
 import (
 	"fmt"
 	"os"
 	"strings"
-	"testing"
 )
 
-// Proper mathematical modulo — always returns 0 ≤ result < m
+// Proper mathematical modulo — always ≥ 0
 func mod(a, m int) int {
-	return (a % m + m) % m
-}
-// helper so `go run . test` works (optional but nice)
-func matchString(pat, str string) (bool, error) { return pat == str, nil }
-
-func TestPart1(t *testing.T) {
-	filename := "test_input.txt"
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", filename, err)
-		os.Exit(1)
-	}
-
-	input := string(data)
-	got := Part1(input)
-	want := 3
-	if got != want {
-		t.Fatalf("Part1() = %d; want %d", got, want)
-	}
+	return (a%m + m) % m
 }
 
-func TestPart2(t *testing.T) {
-	filename := "test_input.txt"
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", filename, err)
-		os.Exit(1)
-	}
-
-	input := string(data)
-
-	got := Part2(input)
-	want := 6
-	if got != want {
-		t.Fatalf("Part2() = %d; want %d", got, want)
-	}
-}
-
-
-// Part1 counts how many times the dial lands exactly on 0 after a full rotation
+// Part 1: count how many times we land exactly on 0 after a full rotation
 func Part1(input string) int {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	dial := 50
@@ -74,7 +38,7 @@ func Part1(input string) int {
 	return zeros
 }
 
-// Part2 counts every single time the dial passes through 0, click by click
+// Part 2: count every single click that passes through 0
 func Part2(input string) int {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	dial := 50
@@ -102,21 +66,12 @@ func Part2(input string) int {
 	return clicks
 }
 
-func test() {
-	testing.Main(matchString, []testing.InternalTest{
-		{"TestPart1", TestPart1},
-		{"TestPart2", TestPart2},
-	}, nil, nil)
-	return
-}
+
+// ————————————————————————
+// main() — only runs the program
+// ————————————————————————
 
 func main() {
-	if os.Args[1] == "test" {
-			test()
-			return
-		}
-
-
 	filename := "input.txt"
 	if len(os.Args) > 1 {
 		filename = os.Args[1]
@@ -129,7 +84,6 @@ func main() {
 	}
 
 	input := string(data)
-
 	fmt.Println("Part 1:", Part1(input)) // → 1177
 	fmt.Println("Part 2:", Part2(input)) // → 6768
 }
