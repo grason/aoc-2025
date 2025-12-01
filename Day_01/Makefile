@@ -1,7 +1,6 @@
 .PHONY: all run-part1 run-part2 test
 
-all: run-part1 run-part2
-
+all: run-part1 run-part2 run-go
 run-part1:
 	python solution.py input.txt
 
@@ -23,3 +22,5 @@ test-part2: test_input.txt
 	else \
 		echo "Part 2 test failed!"; \
 	fi
+run-go:
+	go run solution.go input.txt
