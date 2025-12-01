@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# newday.sh — The truly generic AoC day creator
-# Works with Python, Rust, Go, C, Zig, Assembly, Haskell, BQN, Brainfuck, whatever.
-# No questions asked. No language bias. Pure folder + Makefile bliss.
-
 set -euo pipefail
 
 # ---- Get day number -------------------------------------------------
