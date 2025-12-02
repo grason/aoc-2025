@@ -70,20 +70,37 @@ import (
 	"testing"
 )
 func TestPart1(t *testing.T) {
-	input := ``
-	got := Part1(input)
-	want := 3
-	if got != want {
-		t.Errorf("Part1 = %d; want %d", got, want)
+		tests := []struct {
+		name string
+		input string
+		want int
+	}{
+		{"1","2",3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Part1(tt.input)
+			if got != tt.want {
+				t.Errorf("Add(%s) = %d; want %d", tt.input, got, tt.want)
+			}
+		})
 	}
 }
-
 func TestPart2(t *testing.T) {
-	input := ''
-	got := Part2(input)
-	want := 6
-	if got != want {
-		t.Errorf("Part2 = %d; want %d", got, want)
+		tests := []struct {
+		name string
+		input string
+		want int
+	}{
+		{"1","2",3},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Part2(tt.input)
+			if got != tt.want {
+				t.Errorf("Add(%s) = %d; want %d", tt.input, got, tt.want)
+			}
+		})
 	}
 }
 EOF
@@ -91,17 +108,15 @@ EOF
 
 # The most generic Makefile ever written
 cat > Makefile << 'EOF'
-.PHONY: all run-part1 run-part2 test
+.PHONY: all test run build benchmark
 
-all: test run\
-
-run: run-go
-
-test: test-go
-
-test-go:
+all: test run
+test:
 	go test
-
 run-go:
 	go run solution.go input.txt
+build:
+	go build solution.go
+benchmark: build
+	time -p ./solution
 EOF
