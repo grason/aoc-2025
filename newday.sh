@@ -26,42 +26,82 @@ touch input.txt
 touch test_input.txt
 
 # Four completely blank solution files (you pick the extension later)
-touch solution1
-touch solution2
-touch solution3
-touch solution4
+echo "package day$DAY\n" > solution.go
+cat >> solution.go << 'EOF'
+import (
+	"fmt"
+	"os"
+	"strings"
+)
+func Part1(input string) int {
+
+	return 0
+}
+func Part2(input string) int {
+
+	return 0
+}
+
+func main() {
+	filename := "input.txt"
+	if len(os.Args) > 1 {
+		filename = os.Args[1]
+	}
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", filename, err)
+		os.Exit(1)
+	}
+
+	input := string(data)
+	//end boilerplate
+
+	fmt.Println("Part 1:", Part1(input))
+	fmt.Println("Part 2:", Part2(input))
+}
+EOF
+
+
+
+
+echo "package day$DAY" > solution_test.go
+cat >> solution_test.go << 'EOF'
+import (
+	"testing"
+)
+func TestPart1(t *testing.T) {
+	input := ``
+	got := Part1(input)
+	want := 3
+	if got != want {
+		t.Errorf("Part1 = %d; want %d", got, want)
+	}
+}
+
+func TestPart2(t *testing.T) {
+	input := ''
+	got := Part2(input)
+	want := 6
+	if got != want {
+		t.Errorf("Part2 = %d; want %d", got, want)
+	}
+}
+EOF
+
 
 # The most generic Makefile ever written
 cat > Makefile << 'EOF'
-# Advent of Code – Day XX
-# Edit the commands below to match your language
+.PHONY: all run-part1 run-part2 test
 
-.PHONY: all part1 part2 part3 part4 test clean
+all: test run\
 
-all: part1 part2
+run: run-go
 
-part1:
-    @echo "=== Part 1 ==="
-    # Example commands (uncomment the one you need):
-    # python3 solution1.py input.txt
-    # cargo run --release --bin part1
-    # go run solution1.go
-    # gcc solution1.c -o solution1 && ./solution1
-    # nasm -f elf64 solution1.asm && ld -o solution1 solution1.o && ./solution1
-    # ./solution1 < input.txt
+test: test-go
 
-part2:
-    @echo "=== Part 2 ==="
-    # (same as above, for part 2)
+test-go:
+	go test
 
-part3 part4:
-    @echo "No code yet"
-
-test:
-    @echo "=== Testing on test_input.txt ==="
-    # ./solution1 < test_input.txt
-    # python3 solution1.py test_input.txt
-
-clean:
-    rm -rf __pycache__ *.o *.out *.exe a.out solution1 solution2
+run-go:
+	go run solution.go input.txt
 EOF
