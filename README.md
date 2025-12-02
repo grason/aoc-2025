@@ -1,7 +1,7 @@
 # Advent of Code 2025
 
 ![Advent of Code](https://img.shields.io/badge/Advent%20of%20Code-2025-de1d3b?style=for-the-badge&logo=adventofcode)
-![Stars](https://img.shields.io/badge/stars%20⭐-02%20/%2024-yellow?style=for-the-badge)
+![Stars](https://img.shields.io/badge/stars%20⭐-04%20/%2024-yellow?style=for-the-badge)
 
 My solutions for **[Advent of Code 2025](https://adventofcode.com/2025)**.
 
