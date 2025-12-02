@@ -5,7 +5,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"slices"
 )
 
 //splits ints in the middle, then returns if they match.
@@ -32,87 +31,19 @@ func rangeProducer(input string, output chan<- int){
 	close(output)
 }
 
-//God bless Donald Knuth
-//https://www.geeksforgeeks.org/dsa/kmp-algorithm-for-pattern-searching/
-func lpsArray(pattern string)[]int {
-	length := 0
-	lps := make([]int, len(pattern))
-	i := 1
-	for i < len(pattern) {
-		if pattern[i] == pattern[length] {
-			length++
-			lps[i] = length
-			i++
-		} else {
-			if length != 0 {
-				length = lps[length-1]
-			} else {
-				lps[i] = 0
-				i++
-			}
-		}
-	}
-	return lps
-}
+func isRepeatingNumber(num int) bool {
+    s := strconv.Itoa(num)
+    n := len(s)
 
-func search(pat string, txt string)[]int{
-	n:= len(txt)
-	m:= len(pat)
-	res :=[]int{}
-	lps := lpsArray(pat)
-	i := 0
-	j := 0
-	for i < n {
-		if txt[i] == pat[j] {
-			i++
-			j++
-			if j == m {
-				res = append(res, i - j)
-				j = lps[j-1]
-			}
-		} else {
-			if j != 0 {
-                j = lps[j-1]
-			} else {
-                i++;
-            }
-		}
-	}
-	return res
-}
-
-
-// the reference slice will look like this ALWAYS
-// Example 12121212
-// ref [0 2 4 6]
-func refRes(patSize int, txtSize int)[]int{
-	arrSize := txtSize / patSize
-	rval := make([]int, arrSize)
-	for i:=0;i*patSize<txtSize;i++{
-		rval[i] = i*patSize
-	}
-	return rval
-}
-
-//we find the kmp array for this number, then we must check the returns 
-func kmpMatch(num int) bool {
-	inputStr := strconv.Itoa(num);
-	//we only need to check the first half of of the number for prefixes.
-	for i:=1; i<=len(inputStr)/2;i++ {
-		if len(inputStr) % i != 0 {
-			continue //skip patterns that don't equally fit within the number
-		}
-		//construct lps
-		res := search(inputStr[:i], inputStr)
-		//construct reference slice which we compare the actual res slice to
-		ref := refRes(i,len(inputStr))
-
-		if slices.Equal(res,ref) {
-			return true
-		}
-
-	}
-	return false
+    for i := 1; i <= n/2; i++ {
+        if n%i != 0 {
+            continue
+        }
+        if strings.Repeat(s[:i], n/i) == s {
+            return true
+        }
+    }
+    return false
 }
 
 
@@ -130,7 +61,7 @@ func verify(inputch <-chan int, invalidIds chan<- int){
 func verify2(inputch <-chan int, invalidIds chan<- int){
 	defer close(invalidIds)
 	for num := range inputch {
-		if kmpMatch(num) {
+		if isRepeatingNumber(num) {
 			invalidIds <- num
 		}
 	}
@@ -183,10 +114,6 @@ func main() {
 	}
 
 	input := string(data)
-
-
-
-
 	//end boilerplate
 
 	fmt.Println("Part 1:", Part1(input))
