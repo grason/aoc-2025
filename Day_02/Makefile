@@ -1,6 +1,6 @@
 .PHONY: all run-part1 run-part2 test
 
-all: test run\
+all: test run
 
 run: run-go
 
