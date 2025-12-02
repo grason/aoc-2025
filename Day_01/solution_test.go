@@ -1,8 +1,9 @@
-package day01
+package main
 
 import (
 	"testing"
 )
+
 func TestPart1(t *testing.T) {
 	input := `L68
 L30

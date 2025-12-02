@@ -26,7 +26,7 @@ touch input.txt
 touch test_input.txt
 
 # Four completely blank solution files (you pick the extension later)
-echo "package day$DAY\n" > solution.go
+echo "package main" > solution.go
 cat >> solution.go << 'EOF'
 import (
 	"fmt"
@@ -64,7 +64,7 @@ EOF
 
 
 
-echo "package day$DAY" > solution_test.go
+echo "package main" > solution_test.go
 cat >> solution_test.go << 'EOF'
 import (
 	"testing"

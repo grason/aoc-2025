@@ -1,5 +1,5 @@
 // solution.go
-package day01
+package main
 
 import (
 	"fmt"
@@ -65,7 +65,6 @@ func Part2(input string) int {
 	}
 	return clicks
 }
-
 
 // ————————————————————————
 // main() — only runs the program
