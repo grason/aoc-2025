@@ -46,7 +46,7 @@ func TestPart1_SingleRow(t *testing.T) {
 		{
 			name:     "increasing order",
 			input:    "123456789",
-			expected: 98, // first 9 and last 8? No — we want highest possible two-digit from any two positions
+			expected: 89,
 		},
 		{
 			name:     "9 at start, 8 at end",
@@ -96,9 +96,9 @@ func Test_maxJolts(t *testing.T) {
 			want: 92,
 		},
 		{
-			name: "no valid pair",
+			name: "Just 1s → 11",
 			bank: []int{1,1,1,1},
-			want: 0,
+			want: 11,
 		},
 		{
 			name: "single 9",

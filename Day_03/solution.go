@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"strconv"
 )
 
 func assembleBank(input string, output chan<- []int){
@@ -11,7 +12,7 @@ func assembleBank(input string, output chan<- []int){
 	for _, line := range lines {
 		arr := make([]int,len(line),len(line))
 		for pos, r := range line {
-			arr[pos] = int(r) - 48 //ascii 'a'
+			arr[pos],_ = strconv.Atoi(string(r))
 		}
 		output <- arr
 	}
@@ -20,12 +21,13 @@ func assembleBank(input string, output chan<- []int){
 
 func generateLookup(bank []int)[9][]int{
 	var positions [9][]int
-	//fmt.Println(bank)
 	for pos, battery := range bank {
-		
+		if battery == 0 {
+			continue
+		}
+		//fmt.Println(pos, battery)
 		positions[battery-1] = append(positions[battery-1], pos)
 	}
-	//fmt.Println(positions)
 	return positions
 }
 
@@ -36,19 +38,26 @@ func maxJolts(look [9][]int) int {
 	var first [9]int
 	var last [9]int
 	for i := 0; i < 9; i++ {
-		first[i] = 100
-		last[i] = -1
-	}
-	for i := 0; i < 9; i++ {
 		if len(look[i]) > 0{
-			first[i] = look[i][0]
-			last[i] = look[i][len(look[i])-1]
+			first[i] = look[i][0]+1
+			last[i] = look[i][len(look[i])-1]+1
 		}
 	}
+	//fmt.Println("First: ", first)
+	//fmt.Println("Last: ", last)
 	for i := 8; i >=0; i-- {
+		if first[i] == 0 {
+			continue
+		}
 		for j := 8; j >=0; j-- {
-			if (first[i] < last[i]){
-				return first[i]*10 + last[i]
+			if last[j] == 0 {
+				continue
+			}
+			if (first[i] < last[j]){
+				result := (i+1)*10 + (j+1)
+				//fmt.Println(result)
+				return result
+
 			}
 		}
 	}
@@ -60,7 +69,9 @@ func calculateMaxJolts(input <-chan []int, output chan<- int){
 	for bank := range input {
 		//fmt.Println(bank)
 		look := generateLookup(bank)
-		output <- maxJolts(look)
+		//fmt.Println(look)
+		jolts := maxJolts(look);
+		output <- jolts
 	}
 	close(output)
 }
