@@ -170,3 +170,27 @@ func Test_Part1_OneEmptyLine(t *testing.T) {
 		t.Errorf("Part1(one empty line) = %d; want 0", got)
 	}
 }
+
+func Test_largest12DigitsGreedy(t *testing.T) {
+    tests := []struct {
+        name string
+        bank []int
+        want string
+    }{
+        {"row1", []int{9,8,7,6,5,4,3,2,1,1,1,1,1,1,1}, "987654321111"},
+        {"row2", []int{8,1,1,1,1,1,1,1,1,1,1,1,1,1,9}, "811111111119"},
+        {"row3", []int{2,3,4,2,3,4,2,3,4,2,3,4,2,7,8}, "434234234278"},
+        {"row4", []int{8,1,8,1,8,1,9,1,1,1,1,2,1,1,1}, "888911112111"},
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            got := largest12DigitsGreedy(tt.bank)
+            if got != tt.want {
+                t.Errorf("got %q, want %q", got, tt.want)
+            } else {
+                t.Logf("PASS: %s", got)
+            }
+        })
+    }
+}

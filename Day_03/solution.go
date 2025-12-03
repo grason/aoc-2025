@@ -92,8 +92,77 @@ func Part1(input string) int {
 	return sum
 }
 
+func largest12DigitsGreedy(bank []int) string {
+    n := len(bank)
+    if n == 0 {
+        return "0"
+    }
+
+    // We'll try to pick up to 12 digits
+    k := 12
+    if k > n {
+        k = n
+    }
+
+    var chosen []byte
+    pos := 0 // next_search_start
+
+    for picked := 0; picked < k; picked++ {
+        stillNeeded := k - picked
+        lastAllowedPos := n - stillNeeded // inclusive
+
+        if pos > lastAllowedPos {
+            break // can't pick more
+        }
+
+        bestDigit := -1
+        bestPos := pos
+
+        // Scan from pos to lastAllowedPos for the largest digit
+        for i := pos; i <= lastAllowedPos; i++ {
+            d := bank[i]
+            if d > bestDigit {
+                bestDigit = d
+                bestPos = i
+                if bestDigit == 9 {
+                    break // can't do better
+                }
+            }
+        }
+
+        if bestDigit == -1 {
+            break
+        }
+
+        chosen = append(chosen, '0'+byte(bestDigit))
+        pos = bestPos + 1
+    }
+
+    if len(chosen) == 0 {
+        return "0"
+    }
+
+    result := string(chosen)
+    // Trim leading zeros (shouldn't happen, but safe)
+    result = strings.TrimLeft(result, "0")
+    if result == "" {
+        return "0"
+    }
+    return result
+}
+
 func Part2(input string) int {
-	return 0
+	banks_ch := make(chan []int)
+	go assembleBank(input, banks_ch)
+	//maxjolt_ch := make(chan int)
+	sum:=0
+	for bank:= range banks_ch{
+
+		val:=largest12DigitsGreedy(bank)
+		n,_ := strconv.Atoi(val)
+		sum+=n
+	}
+	return sum
 }
 
 func main() {
