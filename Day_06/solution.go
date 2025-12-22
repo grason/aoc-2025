@@ -19,6 +19,19 @@ func splitAndTrim(s, sep string) []string {
 	return result
 }
 
+func StringTo2DChars(input string) [][]rune {
+	// Split the input into lines
+	lines := strings.Split(strings.TrimSuffix(input, "\n"), "\n")
+
+	// Convert each line to []rune
+	grid := make([][]rune, len(lines))
+	for i, line := range lines {
+		grid[i] = []rune(line)
+	}
+
+	return grid
+}
+
 func parseInput(input string) ([][]int, []string, int, int) {
 	lines := strings.Split(input, "\n")
 	l1split := strings.Split(lines[0], " ")
@@ -72,6 +85,16 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
+	runes := StringTo2DChars(input)
+	fmt.Println(runes)
+
+	for x := len(runes[0]) - 1; x >= 0; x-- {
+		ru := make([]rune, len(runes)-1)
+		for y := 0; y < len(runes)-1; y++ {
+			ru[y] = runes[y][x]
+		}
+		fmt.Println(string(ru))
+	}
 	return 0
 }
 
